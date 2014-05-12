@@ -48,7 +48,7 @@ public class FeatherAbility extends AbilityHelper{
 				 
 			 LivingEntity areaTarget = (LivingEntity) subject;
 			 areaTarget.setVelocity(new Vector(0, 1, 0));
-       		 areaTarget.damage(0D); //Interesting bug, setVelocity() only works with this?
+       		 	 areaTarget.damage(0D); //Interesting bug, setVelocity() only works with this?
 			 }
 	     }
 			 player.sendMessage(ChatColor.GOLD + "Used Whirlwind!");
