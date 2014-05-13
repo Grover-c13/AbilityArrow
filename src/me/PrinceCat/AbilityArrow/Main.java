@@ -34,32 +34,27 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler (priority = EventPriority.LOW)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		
-		// Check if the entity is a living entity
+	// Check if the entity is a living entity
          if (!(event.getEntity() instanceof LivingEntity)){
         	 return;
          }
-        
-         // Check if the damage was dealt by a projectile
-         if (!(event.getDamager() instanceof Projectile)){
-        	 return;
-         }
-        
-         // Check if the player fired the projectile
-         Projectile pro = (Projectile)event.getDamager();
-         if (!(pro.getShooter() instanceof Player)){
-        	 return;
-         }
          
-         // Check if projectile is an arrow
-         if (!(pro instanceof Arrow)) {
+         // arrow inherits projectile, so we dont need to check instanceof of both
+         // Check if the damage was dealt by an arrow
+         if (!(event.getDamager() instanceof Arrow)){
         	 return;
          }
-         
-         // Check if player didn't hit themselves
+        
+         // Check if player DID hit them selves
          if (pro.getShooter() instanceof Player) {
         	 if (event.getEntity().equals(pro.getShooter())) {
         		 return;
         	 }
+         } else {
+         	 // this means a mob fired the arrow and we dont want to do anything with it
+         	 // one less instanceof check because using else now.
+         	 return;
+        
          }
         
          // Declarations
@@ -77,7 +72,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	
 	public void onEnable() {
-		getLogger().info("AbilityArrow enabled");
+		getLogger().info("AbilityArrow enabled"); // this is a bit redundant since bukkit does this anyway :P
 		
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(this, this);
@@ -85,6 +80,9 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		getLogger().info("AbilityArrow disabled");
+		AbilityHelper.playerAbility.clear(); // clear it out, while its not really neccessary this is a very small memory leak
+		// if this server ran indefinitley with no server resets for a few decades and had ~40000 unique player joins it might run out of memory, so its good habit to keep mind of it. 
+		// id also make it remove a player when it disconnects.
 	}
 	
 }
