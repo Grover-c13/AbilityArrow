@@ -3,3 +3,6 @@ author: PrinceCat
 version: 1.0
 description: Adds abilities to arrows
 main: me.PrinceCat.AbilityArrow.Main
+commands:
+  abilityshop:
+    description: Opens the ability shop.
