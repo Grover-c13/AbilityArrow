@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -24,14 +25,13 @@ public class AbilityInventory{
 	}
 	
 	public static void drawShopItems(Player player) {
-		ItemStack featherItem = ShopItemMeta(new ItemStack(Material.FEATHER, 1,(short) 1),ChatColor.GOLD + "" + ChatColor.BOLD +  "Whirlwind", 
-				Arrays.asList(
+		ItemStack featherItem = ShopItemMeta(new ItemStack(Material.FEATHER, 1, (short)1),ChatColor.GOLD + "" + ChatColor.BOLD +  "Whirlwind", 
+			Arrays.asList(
 				ChatColor.AQUA + "Throws nearby enemies into the air.",
 				" ",
 				ChatColor.RESET + "" + ChatColor.BOLD +  "Cost:",
 				displayCost(player, new ItemStack(Material.FEATHER), 4)));
-
-shopInv.setItem(0, featherItem);
+		shopInv.setItem(0, featherItem);
 	}
 	
 	public static ItemStack ShopItemMeta(ItemStack itemStack, String itemName, List<String> lore) {
@@ -45,11 +45,15 @@ shopInv.setItem(0, featherItem);
 	}
 	
 	public static String displayCost(Player player, ItemStack itemStack, int numItems) {
-		String itemName = WordUtils.capitalizeFully(itemStack.getType().toString().replace("_", " "));
-		if (player.getInventory().containsAtLeast(itemStack, numItems)) {
-			return ChatColor.GREEN + "" + numItems + " x " + itemName;
+		String itemName = WordUtils.capitalizeFully(itemStack.getType().toString().replaceAll("_", " "));
+		if (player.getGameMode() == GameMode.SURVIVAL) {
+			if (player.getInventory().containsAtLeast(itemStack, numItems)) {
+				return ChatColor.GREEN + "" + numItems + " x " + itemName;
+			} else {
+				return ChatColor.RED + "" + numItems + " x " + itemName;
+			}
 		} else {
-			return ChatColor.RED + "" + numItems + " x " + itemName;
+			return ChatColor.GREEN + "" + numItems + " x " + itemName;
 		}
 	}
 }
