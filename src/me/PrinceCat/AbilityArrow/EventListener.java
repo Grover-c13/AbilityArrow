@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class EventListener implements Listener{
 	
@@ -79,24 +80,34 @@ public class EventListener implements Listener{
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-
+		
+		//TODO Stop player being able to duplicate ability items in their own inventory. Check if they're clicking in the top inventory?
+		
 		//Check if the inventory is the Ability Shop
-		if (!ChatColor.stripColor(event.getInventory().getName()).equalsIgnoreCase("Ability Shop")) {
+		if (!ChatColor.stripColor(event.getView().getTopInventory().getName()).equals("Ability Shop")) {
+			return;
+		}
+		
+		//Check if player clicked in the top inventory.
+		if (!(event.getRawSlot() == event.getSlot())) {
 			return;
 		}
 		
 		Player player = (Player) event.getWhoClicked();
 		ItemStack clickedItem = event.getCurrentItem();
+		
+		//Check if the clicked item is not null or air 
+		if (clickedItem == null || clickedItem.getType().equals(Material.AIR)) {
+			return;
+		}
+		
+		//Check if the clicked item has a metadata
 		if (clickedItem.getItemMeta().equals(null) || clickedItem.getItemMeta().getDisplayName().equals(null)) {
 			return;
 		}
-			String itemName = clickedItem.getItemMeta().getDisplayName();
-			itemName = ChatColor.stripColor(itemName);
+			
+		String itemName = ChatColor.stripColor(clickedItem.getItemMeta().getDisplayName());
 		
-		//Check if the clicked item is not null or air
-		if (clickedItem.equals(null) || clickedItem.getType().equals(Material.AIR)) {
-			return;
-		}
 		
 		switch (itemName) {
 		case "Whirlwind":
@@ -112,6 +123,10 @@ public class EventListener implements Listener{
 				 player.getInventory().addItem(clickedItem);
 				 player.updateInventory();
 				 event.setCancelled(true);
+				 break;
+		default:
+			event.setCancelled(true);
+			break;
 		}
 		 AbilityInventory.drawShopItems(player);
 	}
