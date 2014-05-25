@@ -49,18 +49,27 @@ public class AbilityHelper {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	//TODO Fix bug where item is never fully removed from inventory?
+	
 	public static void removeAbilityItem(Player player, Material material, short damageValue) {
+		if (player.getInventory().contains(new ItemStack(material, 1, damageValue))) {
+			System.out.print("Inventory has item!");
+			//player.getInventory().removeItem(new ItemStack(material, 1, damageValue));
+		}
+		
+		/*
 		for (int i = 0; i <= player.getInventory().getSize(); i++) {
 			if (player.getInventory().getItem(i).getType().equals(material)) {
 				System.out.print("Item is material!");
 				if (player.getInventory().getItem(i).getDurability() == damageValue) {
 					System.out.print("Item has damage value!");
 					player.getInventory().removeItem(new ItemStack(player.getInventory().getItem(i).getType(), 1, damageValue));
+					player.getInventory().
 					break;
 				}
 			}
 		}
+		*/
 		
 	}
 
