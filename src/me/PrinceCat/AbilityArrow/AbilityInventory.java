@@ -3,6 +3,7 @@ package me.PrinceCat.AbilityArrow;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,10 +45,11 @@ shopInv.setItem(0, featherItem);
 	}
 	
 	public static String displayCost(Player player, ItemStack itemStack, int numItems) {
+		String itemName = WordUtils.capitalizeFully(itemStack.getType().toString().replace("_", " "));
 		if (player.getInventory().containsAtLeast(itemStack, numItems)) {
-			return ChatColor.GREEN + "" + numItems + " x " + itemStack.getType();
+			return ChatColor.GREEN + "" + numItems + " x " + itemName;
 		} else {
-			return ChatColor.RED + "" + numItems + " x " + itemStack.getType();
+			return ChatColor.RED + "" + numItems + " x " + itemName;
 		}
 	}
 }
