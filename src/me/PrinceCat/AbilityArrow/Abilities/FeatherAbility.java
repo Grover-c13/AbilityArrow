@@ -22,19 +22,6 @@ public class FeatherAbility extends AbilityHelper{
 			removeAbilityItem(player, Material.FEATHER,(short) 1);
 		}
 		
-		/*
-		// Remove item from player's inventory if they are in survival
-		 if (player.getGameMode() == GameMode.SURVIVAL) {
-			 ItemStack featherItem = new ItemStack(Material.FEATHER, 4);
-			 if (player.getInventory().containsAtLeast(featherItem, 4)) {
-				 player.getInventory().removeItem(featherItem);
-			 } else {
-				 player.sendMessage(ChatColor.RED + "Whirlwind failed...");
-   			     resetAbility(playerName);
-   			 return;
-			 }
-		 }
-		*/
 		 target.setVelocity(new Vector(0, 1, 0));
 		 target.damage(0D);
 
