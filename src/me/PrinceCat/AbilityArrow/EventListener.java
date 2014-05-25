@@ -1,6 +1,8 @@
 package me.PrinceCat.AbilityArrow;
 
+import me.PrinceCat.AbilityArrow.Abilities.Ability;
 import me.PrinceCat.AbilityArrow.Abilities.FeatherAbility;
+import me.PrinceCat.AbilityArrow.Abilities.GunpowderAbility;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -17,7 +19,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 public class EventListener implements Listener{
 	
@@ -51,10 +52,10 @@ public class EventListener implements Listener{
          final String playerName = player.getName();
          final LivingEntity target = (LivingEntity) event.getEntity();
          
-         String selectedAbility = AbilityHelper.getAbility(playerName);
+         Ability selectedAbility = AbilityHelper.getAbility(playerName);
          
          if (selectedAbility != null) {
-        	 if (selectedAbility.equalsIgnoreCase("Whirlwind")) {
+        	 if (selectedAbility.equals(Ability.FEATHER)) {
         		 FeatherAbility.activate(player, target);
         	 }
          }
@@ -71,7 +72,7 @@ public class EventListener implements Listener{
 			
 			if(player.getItemInHand().getType().equals(Material.FEATHER)) {
 				if (player.getItemInHand().getDurability() == 1) {
-					AbilityHelper.toggleAbility(player, "Whirlwind");
+					AbilityHelper.toggleAbility(player, Ability.FEATHER);
 					}
 				}
 			}
