@@ -2,8 +2,6 @@ package me.PrinceCat.AbilityArrow;
 
 import java.util.HashMap;
 
-import me.PrinceCat.AbilityArrow.Abilities.Ability;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -54,6 +52,9 @@ public class AbilityHelper {
 		}
 	}
 	
+	//TODO Make removeAbilityItem accept ItemStack as its second parameter
+	
+	// Remove the ability item from the player's inventory
 	public static void removeAbilityItem(Player player, Material material, short damage) {
 		//Very messy fix, but works?
 		for (int i = 0; i <= player.getInventory().getSize(); i++) {
