@@ -7,17 +7,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+// Abilities no longer inherit this class, it didnt make much sense as this is more interfacey IMO, but it now just references them statically
 public class AbilityHelper {
 
-	public static HashMap<String, Ability> playerAbility = new HashMap<String, Ability>();
+	public static HashMap<String, BaseAbility> playerAbility = new HashMap<String, BaseAbility>();
 
 	// Set player's current ability
-	public static void setAbility(String playerName, Ability abilityName) {
-		playerAbility.put(playerName, abilityName);
+	public static void setAbility(String playerName, BaseAbility ability) {
+		playerAbility.put(playerName, ability);
 	}
 
 	// Get player's current ability
-	public static Ability getAbility(String playerName) {
+	public static BaseAbility getAbility(String playerName) {
 		if (playerAbility.containsKey(playerName)) {
 			return playerAbility.get(playerName);
 		}
@@ -32,19 +33,19 @@ public class AbilityHelper {
 	}
 
 	// Toggle a player's selected ability
-	public static void toggleAbility(Player player, Ability abilityName) {
+	public static void toggleAbility(Player player, BaseAbility ability) {
 		String playerName = player.getName();
-		Ability selectedAbility = getAbility(playerName);
+		BaseAbility selectedAbility = getAbility(playerName);
 		
 		if (selectedAbility == null) {
-			player.sendMessage(ChatColor.GREEN + abilityName.getUsableName() + " enabled.");
-			setAbility(playerName ,abilityName);
+			player.sendMessage(ChatColor.GREEN + ability.getUsableName() + " enabled.");
+			setAbility(playerName ,ability);
 			return;
 		}
 		
 		String usableName = selectedAbility.getUsableName();
 
-		if (selectedAbility.equals(abilityName)) {
+		if (selectedAbility.equals(ability)) {
 			player.sendMessage(ChatColor.RED + usableName + " disabled.");
 			resetAbility(playerName);
 		} else {

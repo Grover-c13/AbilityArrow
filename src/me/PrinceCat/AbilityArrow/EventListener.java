@@ -48,14 +48,13 @@ public class EventListener implements Listener{
          final String playerName = player.getName();
          final LivingEntity target = (LivingEntity) event.getEntity();
          
-         Ability selectedAbility = AbilityHelper.getAbility(playerName);
-         
-         // Iterate over enum to see if player has value, then activate
-         for (Ability ability : Ability.values()) {
-        	 if (ability.equals(selectedAbility)) {
-        		 ability.doAbility(player, target);
-        	 }
+         BaseAbility selectedAbility = AbilityHelper.getAbility(playerName);
+         if (selectedAbility != null) { // fix NPE when no ability activated
+        	 selectedAbility.activate(player, target);
          }
+         // dont need to find its ability because our enum points to the ability, we just need the method to be declared in our enum
+         
+
          
          /*
          if (selectedAbility != null) {
@@ -78,8 +77,9 @@ public class EventListener implements Listener{
 			
 			if(player.getItemInHand().getType().equals(Material.FEATHER)) {
 				if (player.getItemInHand().getDurability() == 1) {
-					AbilityHelper.toggleAbility(player, Ability.FEATHER);
-					for (Ability a : Ability.values()) {
+					// reference the ability class, instead of the enum - its more useful and even if we kept it that way we would just use it to reference the value.
+					AbilityHelper.toggleAbility(player, EnumAbility.FEATHER.getAbility());
+					for (EnumAbility a : EnumAbility.values()) {
 						System.out.print(a);
 					}
 				}
