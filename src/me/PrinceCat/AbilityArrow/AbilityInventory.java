@@ -15,8 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class AbilityInventory{
+	
+	// Create the shop inventory
 	static final Inventory shopInv = Bukkit.createInventory(null, 18, ChatColor.BOLD + "Ability Shop");
 	
+	// Open shop for specified player
 	public static void openShop(Player player) {
 		
 		drawShopItems(player);
@@ -24,6 +27,7 @@ public class AbilityInventory{
 		
 	}
 	
+	// Draw each of the shop items
 	public static void drawShopItems(Player player) {
 		ItemStack featherItem = ShopItemMeta(new ItemStack(Material.FEATHER, 1, (short)1),ChatColor.GOLD + "" + ChatColor.BOLD +  "Whirlwind", 
 			Arrays.asList(
@@ -34,6 +38,7 @@ public class AbilityInventory{
 		shopInv.setItem(0, featherItem);
 	}
 	
+	// Helper method for applying Item Meta
 	public static ItemStack ShopItemMeta(ItemStack itemStack, String itemName, List<String> lore) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		
@@ -44,6 +49,7 @@ public class AbilityInventory{
 		return itemStack;
 	}
 	
+	// Helper method for calculating cost display
 	public static String displayCost(Player player, ItemStack itemStack, int numItems) {
 		String itemName = WordUtils.capitalizeFully(itemStack.getType().toString().replaceAll("_", " "));
 		if (player.getGameMode() == GameMode.SURVIVAL) {
