@@ -1,9 +1,5 @@
 package me.PrinceCat.AbilityArrow;
 
-import me.PrinceCat.AbilityArrow.Abilities.Ability;
-import me.PrinceCat.AbilityArrow.Abilities.FeatherAbility;
-import me.PrinceCat.AbilityArrow.Abilities.GunpowderAbility;
-
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -54,11 +50,21 @@ public class EventListener implements Listener{
          
          Ability selectedAbility = AbilityHelper.getAbility(playerName);
          
-         if (selectedAbility != null) {
-        	 if (selectedAbility.equals(Ability.FEATHER)) {
-        		 FeatherAbility.activate(player, target);
+         // Iterate over enum to see if player has value, then activate
+         for (Ability ability : Ability.values()) {
+        	 if (ability.equals(selectedAbility)) {
+        		 ability.doAbility(player, target);
         	 }
          }
+         
+         /*
+         if (selectedAbility != null) {
+        	 if (selectedAbility.equals(Ability.FEATHER)) {
+        		 //FeatherAbility.activate(player, target);
+        		 Ability.FEATHER.doAbility(player, target);
+        	 }
+         }
+         */
 	}
 	
 	@EventHandler
@@ -73,16 +79,17 @@ public class EventListener implements Listener{
 			if(player.getItemInHand().getType().equals(Material.FEATHER)) {
 				if (player.getItemInHand().getDurability() == 1) {
 					AbilityHelper.toggleAbility(player, Ability.FEATHER);
+					for (Ability a : Ability.values()) {
+						System.out.print(a);
 					}
 				}
 			}
 		}
+	}
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		
-		//TODO Stop player being able to duplicate ability items in their own inventory. Check if they're clicking in the top inventory?
 		
 		//Check if the inventory is the Ability Shop
 		if (!ChatColor.stripColor(event.getView().getTopInventory().getName()).equals("Ability Shop")) {
@@ -107,6 +114,8 @@ public class EventListener implements Listener{
 			return;
 		}
 			
+		//TODO Make this check dynamic!
+		
 		String itemName = ChatColor.stripColor(clickedItem.getItemMeta().getDisplayName());
 		
 		
