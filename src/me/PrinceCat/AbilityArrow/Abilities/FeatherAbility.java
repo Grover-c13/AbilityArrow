@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 
 public class FeatherAbility extends AbilityHelper{
 
+	// Activates this ability
 	public static void activate(Player player, LivingEntity target) {
 		String playerName = player.getName();
 
@@ -22,10 +23,11 @@ public class FeatherAbility extends AbilityHelper{
 			removeAbilityItem(player, Material.FEATHER,(short) 1);
 		}
 		
+		 // Apply to original target
 		 target.setVelocity(new Vector(0, 1, 0));
 		 target.damage(0D);
 
-		 List<Entity> areaEffect = target.getNearbyEntities(5, 5, 5);
+		 List<Entity> areaEffect = target.getNearbyEntities(2, 2, 2);
 		 for (Entity subject : areaEffect) {
 			 if (subject instanceof LivingEntity) {
 				 if (subject instanceof Player) {
@@ -41,11 +43,10 @@ public class FeatherAbility extends AbilityHelper{
 
 			 LivingEntity areaTarget = (LivingEntity) subject;
 			 areaTarget.setVelocity(new Vector(0, 1, 0));
-       		 	 areaTarget.damage(0D); //Interesting bug, setVelocity() only works with this?
+       		 areaTarget.damage(0D); //Interesting bug, setVelocity() only works with this? 
 			 }
 	     }
 			 player.sendMessage(ChatColor.GOLD + "Used Whirlwind!");
 			 resetAbility(playerName);
 	}
-
 }
